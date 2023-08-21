@@ -1,3 +1,30 @@
+
+//========== HTML Console option (opening)
+
+var html_console_out
+
+function html_console_log_setup(){
+    if(typeof document == "undefined") return
+    html_console_out = document.querySelector("#console_out")
+    if(!html_console_out) alert("#console_out not found")
+}
+
+html_console_log_setup()
+
+function html_console_log(...args){
+    if(typeof document == "undefined") return
+    if(!html_console_out) return
+    var out_text = [...args].join(" ")+"\n"
+    html_console_out.textContent+=out_text
+}
+
+function console_log(...args){
+    console.log(...args)
+    html_console_log(...args)
+}
+
+//========== HTML Console option (closing)
+
 // https://www.dropbox.com/s/4xg7h9qacuwqf70/polimi-test.js
 // https://www.dropbox.com/s/4ou923pc9aonkov/presentazione.pdf
 /*
@@ -31,9 +58,9 @@ function quotes(text){
 
 // comando "report"
 function report(entita_relazioni){
-    console.log("report")
+    console_log("report")
     if(Object.keys(entita_relazioni.relazioni).length==0){
-        console.log('none')
+        console_log('none')
         return
     }
 
@@ -59,7 +86,7 @@ function report(entita_relazioni){
         elenco.push(output)
         output=''
     }
-    console.log(elenco.join(' '))
+    console_log(elenco.join(' '))
 }
 
 // costruisce "entranti" una struttura dati derivata dalle relazioni
@@ -85,7 +112,7 @@ function entranti_da_relazioni(relazioni){
 // aggiunge un'entità all'elenco delle entità monitorate
 // comando "addent"
 function addent(id_ent,entita_monitorate){
-    console.log("addent "+quotes(id_ent))
+    console_log("addent "+quotes(id_ent))
     if(!(id_ent in entita_monitorate))
         entita_monitorate.push(id_ent)
 }
@@ -94,7 +121,7 @@ function addent(id_ent,entita_monitorate){
 // richiede entranti_da_relazioni() addent()
 // comando "addrel"
 function addrel(id_orig,id_dest,id_rel,entita_relazioni){
-    console.log('addrel',quotes(id_orig),quotes(id_dest),quotes(id_rel))
+    console_log('addrel',quotes(id_orig),quotes(id_dest),quotes(id_rel))
     // aggiungi entità se mancano
     //if(entita_relazioni.entita_monitorate.indexOf(id_orig)==-1)addent(id_orig,entita_relazioni.entita_monitorate)
     //if(entita_relazioni.entita_monitorate.indexOf(id_dest)==-1)addent(id_dest,entita_relazioni.entita_monitorate)
@@ -116,7 +143,7 @@ function addrel(id_orig,id_dest,id_rel,entita_relazioni){
 // richiede entranti_da_relazioni()
 // comando "delrel"
 function delrel(id_orig,id_dest,id_rel,entita_relazioni){
-    console.log('delrel',quotes(id_orig),quotes(id_dest),quotes(id_rel))
+    console_log('delrel',quotes(id_orig),quotes(id_dest),quotes(id_rel))
     // esce se il tipo di relazione manca
     //if(!(id_rel in entita_relazioni.relazioni))return
     // cerca e cancella la relazione
@@ -142,7 +169,7 @@ function delrel(id_orig,id_dest,id_rel,entita_relazioni){
 // richiede entranti_da_relazioni()
 // comando "delent"
 function delent(ident,entita_relazioni){
-    console.log('delent',quotes(ident))
+    console_log('delent',quotes(ident))
     // esce se manca l'entità
     if(entita_relazioni.entita_monitorate.indexOf(ident)==-1)
         return
